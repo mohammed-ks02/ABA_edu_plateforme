@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1 class="auth-title">Créer un compte</h1>
+      <p class="auth-subtitle">Rejoignez-nous dès aujourd'hui</p>
+
+      <div id="message" class="message hidden"></div>
+
+      <form id="signup-form" class="auth-form">
+        <div class="form-group">
+          <label for="name">Nom complet</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input type="text" id="name" name="name" placeholder="Votre nom" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Adresse email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉</span>
+            <input type="email" id="email" name="email" placeholder="vous@exemple.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" name="password" placeholder="Min. 8 caractères" required />
+            <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password">Confirmer le mot de passe</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Répétez le mot de passe" required />
+            <button type="button" class="toggle-password" onclick="togglePassword('confirm-password')">👁</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">
+          <span class="btn-text">S'inscrire</span>
+          <span class="btn-loader hidden">⟳</span>
+        </button>
+      </form>
+
+      <p class="auth-redirect">
+        Déjà un compte ? <a href="signin.html">Se connecter</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const PROXY = 'https://corsproxy.io/?url=';
+    const REGISTER_URL = 'https://fusion-ai-api.medifus.dev/webhooks/webhook-86ec8df5-73e8-4235-a11a-6b5222dec82c/auth/register';
+
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function showMessage(text, type) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = `message ${type}`;
+    }
+
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm-password').value;
+
+      if (password !== confirm) {
+        showMessage('Les mots de passe ne correspondent pas.', 'error');
+        return;
+      }
+      if (password.length < 8) {
+        showMessage('Le mot de passe doit contenir au moins 8 caractères.', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('submit-btn');
+      btn.querySelector('.btn-text').classList.add('hidden');
+      btn.querySelector('.btn-loader').classList.remove('hidden');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(PROXY + encodeURIComponent(REGISTER_URL), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+
+        if (data.success === true) {
+          localStorage.setItem('userName', name); // Save name for login popup
+          showMessage('Compte créé avec succès ! Redirection...', 'success');
+          setTimeout(() => window.location.href = 'signin.html', 500);
+        } else {
+          showMessage('Erreur lors de l\'inscription.', 'error');
+        }
+      } catch (err) {
+        showMessage('Impossible de contacter le serveur.', 'error');
+      } finally {
+        btn.querySelector('.btn-text').classList.remove('hidden');
+        btn.querySelector('.btn-loader').classList.add('hidden');
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
