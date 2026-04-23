@@ -1,0 +1,1018 @@
+[
+  {
+    "_id": "68e772fc223090cab4d07898",
+    "userId": "032d2a40-3ff5-4029-a44b-ed2763083257",
+    "name": "sys-auth",
+    "variables": {},
+    "secrets": {},
+    "nodes": [
+      {
+        "position": {
+          "x": 668,
+          "y": 204
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "86ec8df5-73e8-4235-a11a-6b5222dec82c",
+        "type": "trigger",
+        "data": {
+          "description": "Triggers workflow on incoming HTTP requests",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "webhook",
+          "label": "Register Trigger",
+          "inputs": {},
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "method": "post",
+            "respondType": "deferred",
+            "responseCode": 200,
+            "path": "/auth/register"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 835,
+          "y": 194.5
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "b37d54a2-40d8-4141-bec7-e0f80a4f2682",
+        "type": "action",
+        "data": {
+          "description": "Executes custom JavaScript code on the input data.",
+          "showRunningStatus": true,
+          "_morphing": false,
+          "name": "function",
+          "label": "Function",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "code": "\nconst data = input;\n\nconst name = data.body.name;\nconst email = data.body.email;\nconst password = data.body.password;\n\n\nreturn { name, email, password};"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 390.4971062858333,
+          "y": 104.11969263075153
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "0b4c7aec-a8be-4ca5-8b59-60f28ea96c1e",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 875,
+          "y": 62.89923365120649
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "8ca018b6-7d79-4c06-be2e-38910fa445c5",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log1",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1489,
+          "y": 134.3992336512065
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "d6384391-32c7-43e6-b516-1bda0d640feb",
+        "type": "action",
+        "data": {
+          "description": "Execute PostgreSQL operations (select, insert, update, delete)",
+          "showRunningStatus": true,
+          "_morphing": false,
+          "name": "postgres action",
+          "label": "Postgres",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "port": 6543,
+            "schemaName": "public",
+            "connectionTimeoutMillis": 5000,
+            "host": "aws-1-eu-west-2.pooler.supabase.com",
+            "user": "postgres.edqdkaelhloqiyjunxwu",
+            "password": "qIdQP5Dqmbjj3YLw",
+            "database": "postgres",
+            "tableName": "users",
+            "operation": "Execute SQL query",
+            "executeQueryParams": {
+              "query": "INSERT INTO users (name, email, password)  VALUES (   '{{outputs.Function.success.name}}',   '{{outputs.Function.success.email}}',   '{{outputs.Hash.success}}' )"
+            },
+            "replaceEmptyStringWithNull": false,
+            "selectParams": {
+              "returnAll": false
+            },
+            "insertParams": {
+              "skipOnConflict": false
+            },
+            "deleteParams": {
+              "cascade": false
+            }
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1202.7393029434409,
+          "y": 21.899828806077583
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "5ea7b98e-ee8d-43f7-b199-c8d92eb22ae1",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log2",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1017.4013640490468,
+          "y": 480.04418691881864
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "44937b2b-1c9b-408b-9b89-30710b329529",
+        "type": "action",
+        "data": {
+          "description": "Executes custom JavaScript code on the input data.",
+          "showRunningStatus": true,
+          "_morphing": false,
+          "name": "function",
+          "label": "Function1",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "code": "const data = input;\nconst email = data.body.email;\nconst password = data.body.password;\n\nreturn { email, password };"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1207.583128501817,
+          "y": 464.8116338248486
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "b333eec9-470a-410f-a911-6bcde2295526",
+        "type": "action",
+        "data": {
+          "description": "Execute PostgreSQL operations (select, insert, update, delete)",
+          "showRunningStatus": true,
+          "_morphing": false,
+          "name": "postgres action",
+          "label": "Postgres1",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "port": 6543,
+            "schemaName": "public",
+            "connectionTimeoutMillis": 5000,
+            "host": "aws-1-eu-west-2.pooler.supabase.com",
+            "password": "qIdQP5Dqmbjj3YLw",
+            "database": "postgres",
+            "tableName": "users",
+            "user": "postgres.edqdkaelhloqiyjunxwu",
+            "operation": "Execute SQL query",
+            "executeQueryParams": {
+              "query": "SELECT * FROM users WHERE email = '{{ outputs.Function1.success.email}}' LIMIT 1;"
+            },
+            "replaceEmptyStringWithNull": false,
+            "selectParams": {
+              "returnAll": false
+            },
+            "insertParams": {
+              "skipOnConflict": false
+            },
+            "deleteParams": {
+              "cascade": false
+            }
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1169.4184104927328,
+          "y": 649.6897418858715
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "f7646d07-cdc7-4fb2-8620-b152c3207079",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log3",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 699.3779927806145,
+          "y": 696.7355487372256
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "72eb2848-3023-48ed-a0ef-a03c003c685e",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log4",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1777.472587146401,
+          "y": 509.37097054202627
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "d13a974d-cd09-48c9-a2a8-202165062915",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log6",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1537.9517912068936,
+          "y": 458.5903775891041
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "df575060-eb1b-4999-9750-b8b52fff92f2",
+        "type": "action",
+        "data": {
+          "description": "Responds to a webhook with a specific message.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "respond-to-webhook",
+          "label": "Respond to Socket Webhook",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "responseCode": 200,
+            "responseHeaders": {},
+            "responseBody": {
+              "output": "{{outputs.Postgres1.success.rows[0].id}}",
+              "success": true,
+              "name": "{{outputs.Postgres.success1.rows[0].name}}",
+              "email": "{{outputs.Postgres.success1.rows[0].email}}"
+            }
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 414.5007970510585,
+          "y": 737.9772662647512
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "30a94502-652b-4c5a-867c-2b9a976ed99e",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log5",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 729.3430554523659,
+          "y": 498.9940843660311
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "aafaeb02-b71a-41d3-a151-b61ad5cec49d",
+        "type": "trigger",
+        "data": {
+          "description": "Triggers workflow on incoming HTTP requests",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "webhook",
+          "label": "Webhook Trigger",
+          "inputs": {},
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "method": "post",
+            "respondType": "deferred",
+            "responseCode": 200,
+            "path": "/auth/login"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1353.451829940396,
+          "y": 461.94021584923075
+        },
+        "width": 64,
+        "height": 68,
+        "selected": false,
+        "id": "3dda9da9-9d9b-4008-bdb8-8e0b00e2a915",
+        "type": "utility",
+        "data": {
+          "description": "Executes different branches based on a condition",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "if-else",
+          "label": "If-Else",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "true": {
+              "label": "True",
+              "isConnectable": null
+            },
+            "false": {
+              "label": "False",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "condition": "{{outputs.Postgres1.success.rowCount}} > 0"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1072.176639455814,
+          "y": 187.6357660775908
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "04c0dd8f-4b2d-4f8c-81f3-017bc56904d4",
+        "type": "action",
+        "data": {
+          "description": "Hashes data using algorithm. Example: 'hello' with SHA256 → '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "hash",
+          "label": "Hash",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "algorithm": "sha256",
+            "data": "{{outputs.Function.success.password}}"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1314.176639455814,
+          "y": 299.6357660775908
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "66b1e8b4-5f20-48fc-a398-a2287ed71bfd",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log7",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1696.176639455814,
+          "y": 131.6357660775908
+        },
+        "width": 64,
+        "height": 68,
+        "selected": false,
+        "id": "a609e7c7-a546-4302-91db-c4351e921b30",
+        "type": "utility",
+        "data": {
+          "description": "Executes different branches based on a condition",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "if-else",
+          "label": "If-Else1",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "true": {
+              "label": "True",
+              "isConnectable": null
+            },
+            "false": {
+              "label": "False",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "condition": "{{outputs.Postgres.success.rowCount}} == 1"
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1915.176639455814,
+          "y": 89.6357660775908
+        },
+        "width": 64,
+        "height": 64,
+        "selected": false,
+        "id": "8bfee234-85a3-48cb-89bb-3915c9788293",
+        "type": "action",
+        "data": {
+          "description": "Responds to a webhook with a specific message.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "respond-to-webhook",
+          "label": "Respond to Socket Webhook1",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": null
+            },
+            "error": {
+              "label": "Error",
+              "isConnectable": null
+            }
+          },
+          "parameters": {
+            "responseCode": 200,
+            "responseBody": {
+              "success": true
+            }
+          },
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      },
+      {
+        "position": {
+          "x": 1972.176639455814,
+          "y": 228.6357660775908
+        },
+        "width": 256,
+        "height": 100,
+        "dragHandle": ".drag-handle__custom",
+        "selected": false,
+        "id": "3627f00a-d093-450e-a4e5-9ff567d4ea80",
+        "type": "display",
+        "data": {
+          "description": "Logs the input data to the console.",
+          "showRunningStatus": false,
+          "_morphing": false,
+          "name": "media-log",
+          "label": "Log8",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "success": {
+              "label": "Success",
+              "isConnectable": false
+            }
+          },
+          "parameters": {},
+          "defaultOutput": null
+        },
+        "inputs": null,
+        "outputs": null
+      }
+    ],
+    "connections": [
+      {
+        "type": "directed",
+        "id": "xy-edge__hanitoud5f7vjkuvip48h2z9success-dq8awm0b2gy29gzujzs4imtiinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "86ec8df5-73e8-4235-a11a-6b5222dec82c",
+        "target": "b37d54a2-40d8-4141-bec7-e0f80a4f2682",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__hanitoud5f7vjkuvip48h2z9success-ldqoc1vqiikk5w6mbnpeplb2input",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "86ec8df5-73e8-4235-a11a-6b5222dec82c",
+        "target": "0b4c7aec-a8be-4ca5-8b59-60f28ea96c1e",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__dq8awm0b2gy29gzujzs4imtisuccess-f28sdoxeupp5a0r0umrqw8m5input",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "b37d54a2-40d8-4141-bec7-e0f80a4f2682",
+        "target": "8ca018b6-7d79-4c06-be2e-38910fa445c5",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__wrhig070d2986ali6u24mw7ssuccess-mu88n0hcy46qjehf6rnuw94hinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "d6384391-32c7-43e6-b516-1bda0d640feb",
+        "target": "5ea7b98e-ee8d-43f7-b199-c8d92eb22ae1",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__xgnceh92186kb1ezzbxmzn11success-w8jlinti32wauossuf83ifffinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "44937b2b-1c9b-408b-9b89-30710b329529",
+        "target": "b333eec9-470a-410f-a911-6bcde2295526",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__w8jlinti32wauossuf83ifffsuccess-smlgkbzfvy7yw644omzbdfyyinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "b333eec9-470a-410f-a911-6bcde2295526",
+        "target": "f7646d07-cdc7-4fb2-8620-b152c3207079",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__xgnceh92186kb1ezzbxmzn11success-kmhgrkmg9cuyirpqvlwghculinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "44937b2b-1c9b-408b-9b89-30710b329529",
+        "target": "72eb2848-3023-48ed-a0ef-a03c003c685e",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__bsq3pehamqruc1vsrem2yid6success-m2d0no3ulntq719ses4l6nhwinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "df575060-eb1b-4999-9750-b8b52fff92f2",
+        "target": "d13a974d-cd09-48c9-a2a8-202165062915",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__d1bz2dxz9vuabsrdoi51duzvsuccess-xgnceh92186kb1ezzbxmzn11input",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "aafaeb02-b71a-41d3-a151-b61ad5cec49d",
+        "target": "44937b2b-1c9b-408b-9b89-30710b329529",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__d1bz2dxz9vuabsrdoi51duzvsuccess-v6fepc5gz9mzxwxpi9x1r40pinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "aafaeb02-b71a-41d3-a151-b61ad5cec49d",
+        "target": "30a94502-652b-4c5a-867c-2b9a976ed99e",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__w8jlinti32wauossuf83ifffsuccess-nb5mjk5teqasrkt9h9phc7noinput",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "b333eec9-470a-410f-a911-6bcde2295526",
+        "target": "3dda9da9-9d9b-4008-bdb8-8e0b00e2a915",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__nb5mjk5teqasrkt9h9phc7notrue-bsq3pehamqruc1vsrem2yid6input",
+        "data": {
+          "isAnimated": false
+        },
+        "selected": false,
+        "source": "3dda9da9-9d9b-4008-bdb8-8e0b00e2a915",
+        "target": "df575060-eb1b-4999-9750-b8b52fff92f2",
+        "sourceHandle": "true",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__278a9b8f-95e9-484e-88f3-c05181920bfbsuccess-nv4zylz11gla5dfq8908jjmvinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "b37d54a2-40d8-4141-bec7-e0f80a4f2682",
+        "target": "04c0dd8f-4b2d-4f8c-81f3-017bc56904d4",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__nv4zylz11gla5dfq8908jjmvsuccess-wrhig070d2986ali6u24mw7sinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "04c0dd8f-4b2d-4f8c-81f3-017bc56904d4",
+        "target": "d6384391-32c7-43e6-b516-1bda0d640feb",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__nv4zylz11gla5dfq8908jjmvsuccess-y28r9uk9w7fvsmsxnzmnbyhyinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "04c0dd8f-4b2d-4f8c-81f3-017bc56904d4",
+        "target": "66b1e8b4-5f20-48fc-a398-a2287ed71bfd",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__wrhig070d2986ali6u24mw7ssuccess-e0jzj9kgnd2as5n61evwtq51input",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "d6384391-32c7-43e6-b516-1bda0d640feb",
+        "target": "a609e7c7-a546-4302-91db-c4351e921b30",
+        "sourceHandle": "success",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__e0jzj9kgnd2as5n61evwtq51true-gvquh9tybmcpwb4z85sl0202input",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "a609e7c7-a546-4302-91db-c4351e921b30",
+        "target": "8bfee234-85a3-48cb-89bb-3915c9788293",
+        "sourceHandle": "true",
+        "targetHandle": "input"
+      },
+      {
+        "type": "directed",
+        "id": "xy-edge__e0jzj9kgnd2as5n61evwtq51true-qa1a36q0o6wvvuieym4r227vinput",
+        "data": {
+          "isAnimated": false
+        },
+        "source": "a609e7c7-a546-4302-91db-c4351e921b30",
+        "target": "3627f00a-d093-450e-a4e5-9ff567d4ea80",
+        "sourceHandle": "true",
+        "targetHandle": "input"
+      }
+    ],
+    "status": "stopped",
+    "id": "0f31b15b-948f-436f-889c-a2cc06cc99b4",
+    "createdAt": 1776850150118,
+    "updatedAt": "2026-04-23T10:50:32.439Z",
+    "previousStatus": "running"
+  }
+]
